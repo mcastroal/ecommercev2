@@ -22,7 +22,7 @@
    PAGE WRAPPER
    ========================================================= */
 .productsPage {
-  background: var(--page-bg);
+  background: #dfedf9;
   color: var(--brand); /* default text color for page */
 }
 
