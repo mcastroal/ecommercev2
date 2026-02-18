@@ -1,0 +1,411 @@
+/* =========================================================
+   PRODUCTS PAGE STYLES (Dinoco Matcha)
+   - Organized top → bottom: layout, grid, cards, controls, filters
+   - Uses small variables so colors stay consistent
+   ========================================================= */
+
+/* ---------- Theme / reusable values ---------- */
+:root {
+  --page-bg: #ebf6ff;
+  --brand: #648ec0;
+  --surface: #ffffff;
+  --surface-alt: #c9e4fc;
+
+  --border: #e6e6e6;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  --shadow-menu: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================================================
+   PAGE WRAPPER
+   ========================================================= */
+.productsPage {
+  background: var(--page-bg);
+  color: var(--brand); /* default text color for page */
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+.productsHeader {
+  color: var(--brand);
+  padding-top: 40px;
+}
+
+.productsHeader h1 {
+  /* clamp(min, preferred, max) keeps heading responsive */
+  font-size: clamp(32px, 5vw, 48px);
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.productsHeader p {
+  opacity: 0.8;
+  color: var(--brand);
+}
+
+/* =========================================================
+   PRODUCTS GRID (mobile-first)
+   - Starts as 1 column
+   - Expands to 3 columns on tablet/desktop
+   ========================================================= */
+.productGrid {
+  display: grid;
+  grid-template-columns: 1fr; /* mobile: 1 column */
+  gap: 16px;
+  padding: 1rem;
+}
+
+/* Tablet/Desktop layout */
+@media (min-width: 768px) {
+  .productGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* =========================================================
+   FLIP CARD (front/back)
+   - .flipCard sets the 3D perspective
+   - .flipInner rotates to reveal back
+   - front/back are stacked and hidden via backface
+   ========================================================= */
+.flipCard {
+  perspective: 1000px; /* gives the 3D flip depth */
+  height: 420px;       /* consistent card height */
+  cursor: pointer;
+}
+
+.flipInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  /* Enables 3D children */
+  transform-style: preserve-3d;
+
+  /* Smooth flip animation */
+  transition: transform 600ms ease;
+
+  border-radius: var(--radius-lg);
+}
+
+/* Desktop: flip on hover (only if hover exists) */
+@media (hover: hover) and (pointer: fine) {
+  .flipCard:hover .flipInner {
+    transform: rotateY(180deg);
+  }
+}
+
+/* Mobile: flip on tap (you toggle .isFlipped with React) */
+.flipCard.isFlipped .flipInner {
+  transform: rotateY(180deg);
+}
+
+/* ---------- Shared face styles (both sides) ---------- */
+.flipFront,
+.flipBack {
+  position: absolute;
+  inset: 0; /* shorthand for top/right/bottom/left: 0 */
+  backface-visibility: hidden; /* hides mirrored backside when rotated */
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--surface-alt);
+}
+
+/* =========================================================
+   FRONT FACE
+   - Image takes most of the space
+   - Bottom section holds title/price
+   ========================================================= */
+.flipFront {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface);
+}
+
+.productImg {
+  width: 100%;
+  height: 90%;       /* scales with card height */
+  object-fit: cover; /* fills without distortion */
+  display: block;
+}
+
+/* overlay container (currently simple center align) */
+.imageOverlay {
+  text-align: center;
+}
+
+.overlayTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--brand);
+}
+
+/* bottom info row under image (title/price/etc) */
+.frontInfo {
+  height: 22%; /* remaining space for text area */
+  padding: 12px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  background-color: var(--surface);
+}
+
+/* =========================================================
+   BACK FACE
+   - Rotated so it shows when inner flips
+   - Description scrolls if long
+   ========================================================= */
+.flipBack {
+  transform: rotateY(180deg); /* pre-rotate back face */
+  padding: 14px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.productDesc {
+  margin: 0;
+  line-height: 1.45;
+  opacity: 0.9;
+
+  /* Allows long descriptions to scroll */
+  overflow: auto;
+
+  color: var(--brand);
+}
+
+/* bottom row on the back (price/type/etc) */
+.backMeta {
+  margin-top: auto; /* pushes this section to the bottom */
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+
+  color: var(--brand);
+}
+
+/* small category/price chip */
+.pill {
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.7);
+  font-weight: 700;
+}
+
+/* Accessibility: respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .flipInner {
+    transition: none;
+  }
+}
+
+/* Optional: mobile hint cursor */
+@media (hover: none) {
+  .flipCard {
+    cursor: pointer;
+  }
+}
+
+/* =========================================================
+   FILTER + SORT CONTROLS (top bar)
+   ========================================================= */
+.controlsBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  margin: 14px 0 10px;
+  padding: 1rem;
+}
+
+/* shared button styling for icon + sort buttons */
+.iconBtn,
+.sortBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+
+  background: var(--surface);
+  color: var(--brand);
+
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.iconBtn:hover,
+.sortBtn:hover {
+  background: var(--surface-alt);
+}
+
+/* =========================================================
+   DROPDOWN (sort menu)
+   ========================================================= */
+.dropdown {
+  position: relative; /* anchors the dropdown menu */
+  color: var(--brand);
+}
+
+.chev {
+  display: inline-block;
+  transition: transform 160ms ease;
+}
+
+/* rotate chevron when open */
+.chev.up {
+  transform: rotate(180deg);
+}
+
+.dropdownMenu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+
+  width: 180px;
+  padding: 6px;
+
+  background: var(--surface);
+  color: var(--brand);
+
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow-menu);
+  z-index: 20;
+}
+
+.menuItem {
+  width: 100%;
+  text-align: left;
+
+  padding: 10px 10px;
+  border-radius: 10px;
+
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  color: var(--brand);
+  font-weight: 700;
+}
+
+.menuItem:hover {
+  background: #f4f4f4;
+}
+
+.menuItem.active {
+  background: #efefef;
+}
+
+/* =========================================================
+   FILTER PANEL
+   ========================================================= */
+.filtersPanel {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+
+  background: var(--surface);
+  margin-bottom: 16px;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.panelHeader h3 {
+  margin: 0;
+  color: var(--brand);
+}
+
+/* text-style button (like "Clear") */
+.textBtn {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  font-weight: 800;
+  text-decoration: underline;
+  color: var(--brand);
+}
+
+.filterBlock {
+  margin-top: 14px;
+}
+
+.filterLabel {
+  margin: 0 0 8px;
+  font-weight: 800;
+}
+
+/* type pills container */
+.pillGrid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pillBtn {
+  padding: 10px 14px;
+  border-radius: var(--radius-pill);
+
+  border: 1px solid var(--border);
+  background: var(--surface);
+
+  cursor: pointer;
+  font-weight: 800;
+  color: var(--brand);
+}
+
+/* selected pill state */
+.pillBtn.selected {
+  background: var(--surface-alt);
+  color: var(--brand);
+  border-color: var(--brand);
+}
+
+/* price input layout */
+.priceRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.priceField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.miniLabel {
+  font-size: 12px;
+  font-weight: 800;
+  opacity: 0.7;
+}
+
+.priceField input {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  color: var(--brand);
+}

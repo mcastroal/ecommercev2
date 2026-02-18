@@ -1,0 +1,139 @@
+/* =========================================================
+   SLIDER WRAPPER
+   ========================================================= */
+.slider {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden; /* hides anything that spills outside */
+}
+
+/* =========================================================
+   SLIDER TRACK (scroll container)
+   - Horizontal flex row that scrolls sideways
+   - Scroll snapping makes each slide lock into place
+   ========================================================= */
+.slider-track {
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+
+  /* Horizontal scrolling */
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  /* Snap to each slide */
+  scroll-snap-type: x mandatory;
+
+  /* Styling */
+  border-radius: 14px;
+  border: 1px solid #ddd;
+
+  /* Smooth scroll */
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* =========================================================
+   HIDE SCROLLBAR
+   ========================================================= */
+.slider-track::-webkit-scrollbar {
+  display: none;
+}
+
+.slider-track {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* =========================================================
+   SLIDE
+   - Each slide takes up 100% width of the track
+   ========================================================= */
+.slide {
+  position: relative;
+
+  flex: 0 0 100%;
+  width: 100%;
+  max-width: 100%;
+
+  /* Sets slide height relative to viewport */
+  height: 80vh;
+
+  /* Snap point */
+  scroll-snap-align: start;
+}
+
+/* =========================================================
+   SLIDE IMAGE
+   - Covers the entire slide area without stretching
+   ========================================================= */
+.slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* fills area */
+  display: block;    /* removes tiny inline-image gaps */
+}
+
+/* =========================================================
+   OVERLAY (text + button on top of image)
+
+   ========================================================= */
+.slide-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 100px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.6),
+    rgba(0, 0, 0, 0) 60%
+  );
+}
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+.slide-title {
+  color: #f6e6a5;
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 800;
+  text-align: center;
+  margin: 0;
+}
+
+/* =========================================================
+   CTA BUTTON
+   ========================================================= */
+.slide-button {
+  background: #f6e6a5;
+  color: #648ec0;
+  padding: 12px 24px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.slide-button:hover {
+  background: #648ec0;
+  color: #f6e6a5;
+  box-shadow: 0 9px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 600px) {
+  .slide-overlay {
+    padding: 40px 20px; 
+  }
+
+  .slide {
+    height: 70vh; 
+  }
+}

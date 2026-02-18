@@ -1,0 +1,175 @@
+/* =========================================================
+   NAVBAR (sticky top)
+   ========================================================= */
+
+.navbar {
+  /* Keeps the navbar pinned to the top while scrolling */
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #f6e6a5;
+  height: 10vh;
+}
+
+/* Inner wrapper: aligns brand left + nav/hamburger right */
+.navbarInner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+/* =========================================================
+   BRAND (logo + text)
+   ========================================================= */
+
+.brandGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #111;
+  font-weight: 800;
+}
+
+.brandName {
+  color: #648ec0;
+  font-weight: 700;
+  font-size: x-large;
+}
+
+/* Logo sizing */
+.navLogo {
+  height: 100px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* =========================================================
+   DESKTOP NAV LINKS (hidden on mobile)
+   ========================================================= */
+
+.desktopNav {
+  display: none; /* mobile-first: hidden until breakpoint */
+  gap: 16px;
+  align-items: center;
+}
+
+.navLink {
+  text-decoration: none;
+  color: #648ec0;
+  font-weight: 600;
+
+  padding: 8px 14px;
+  border-radius: 999px;
+
+  transition: all 0.2s ease;
+  font-size: large;
+}
+
+/* Active page highlight */
+.navLink.active {
+  background: #c9e4fc;
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   MOBILE HAMBURGER (shown on mobile)
+   ========================================================= */
+
+.hamburgerOnly {
+  display: block;
+  color: #648ec0;
+}
+
+/* =========================================================
+   MOBILE DRAWER + OVERLAY
+   ========================================================= */
+
+/* Dark overlay behind the drawer */
+.menuOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 60;
+}
+
+/* Slide-in drawer panel */
+.menuDrawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: min(85vw, 340px);
+  background: #c9e4fc;
+  z-index: 70;
+
+  /* Start off-screen (closed state) */
+  transform: translateX(105%);
+  transition: transform 250ms ease;
+
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+}
+
+/* When open, slide into view */
+.menuDrawer.open {
+  transform: translateX(0);
+}
+
+.menuHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+}
+
+/* Drawer nav links stacked vertically */
+.menuNav {
+  display: flex;
+  flex-direction: column;
+  margin-top: 14px;
+  gap: 8px;
+}
+
+.menuLink {
+  padding: 12px 10px;
+  border-radius: 10px;
+
+  text-decoration: none;
+  color: #648ec0;
+  font-weight: 700;
+}
+
+.menuLink:hover {
+  background: #f4f4f4;
+}
+
+/* Active page highlight inside drawer */
+.menuLink.active {
+  background: #f6e6a5;
+}
+
+/* =========================================================
+   DESKTOP BREAKPOINT
+   ========================================================= */
+
+@media (min-width: 900px) {
+  /* Show desktop nav links */
+  .desktopNav {
+    display: flex;
+  }
+
+  /* Hide hamburger and mobile drawer/overlay */
+  .hamburgerOnly {
+    display: none;
+  }
+
+  .menuDrawer,
+  .menuOverlay {
+    display: none;
+  }
+}
