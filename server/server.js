@@ -7,7 +7,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// GET /api/products?type=Electronics&minPrice=0&maxPrice=200
 app.get("/api/products", async (req, res) => {
   try {
     const { type, minPrice, maxPrice } = req.query;
@@ -40,7 +39,6 @@ app.get("/api/products", async (req, res) => {
   }
 });
 
-// For building your type dropdown
 app.get("/api/types", async (req, res) => {
   try {
     const [rows] = await pool.query("SELECT DISTINCT type FROM products");

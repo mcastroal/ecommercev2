@@ -6,7 +6,7 @@ import ProductControls from "../components/ProductControls";
 import ProductCard from "../components/ProductCard";
 
 // Import CSS
-import "./products.css";
+import "./Products.css";
 
 export default function Products() {
   // STATE
@@ -17,7 +17,7 @@ export default function Products() {
   const [maxPrice, setMaxPrice] = useState(""); // Maximum price filter
   // SORTING STATE
   const [sortBy, setSortBy] = useState("none"); // none | low | high
-
+  const API = import.meta.env.VITE_API_URL;
   // FETCH PRODUCTS FROM BACKEND (when the ilters change)
   useEffect(() => {
     const params = new URLSearchParams();
@@ -26,7 +26,7 @@ export default function Products() {
     if (minPrice !== "") params.append("minPrice", minPrice);
     if (maxPrice !== "") params.append("maxPrice", maxPrice);
     // Send GET request to backend with filters
-    fetch(`/api/products?${params.toString()}`)
+    fetch(`${API}/api/products?${params.toString()}`)
       .then((res) => res.json()) // Convert response to JSON
       .then((data) => setProducts(data)) //Store results in state
       .catch((err) => console.error("Failed to fetch products:", err));
